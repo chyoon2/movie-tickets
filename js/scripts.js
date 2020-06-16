@@ -1,9 +1,27 @@
 //Business Logic for Theater
 function Theater() {
   this.movies = [];
+  this.id = 0;
+}
+
+Theater.prototype.assignId = function () {
+  this.id += 1;
+  return this.id;
+}
+
+Theater.prototype.find = function() {
+  for (let i=0; i< this.movies.length; i++) {
+    if (this.movies[i]) {
+      if (this.movies[i].id == id) {
+        return this.movies[i];
+      }
+    }
+  };
+  return false;
 }
 
 Theater.prototype.addMovie = function(movie) {
+  movie.id = this.assignId();
   this.movies.push(movie);
 }
 
@@ -51,16 +69,18 @@ Ticket.prototype.cost = function() {
 // Business Logic General
 
 function ageRelevantMovies(age, ourTheater) {
-  let availableMovies = []
+  let availableMovies = [] 
   ourTheater.movies.forEach(function(movie) {
     if (parseInt(age) > 18) {
-      availableMovies.push(movie)
-    } else if (ourTheater.movies.rating == "G" || "PG") {
-      availableMovies.push(movie)
+      availableMovies.push(movie);
+    } else if (movie.rating === "G" || movie.rating === "PG") {
+      availableMovies.push(movie);
     }
   });
   return availableMovies
 }
+// console.log(ageRelevantMovies())
+
 //UI Logic
 
 $(document).ready(function(event){
@@ -78,18 +98,20 @@ $("#age-form").submit(function(event) {
   event.preventDefault();
   let age = $("#age-input").val();
   let moviesToShow = ageRelevantMovies(age, ourTheater);
-  moviesToShow.forEach(function (movie) {
-    let index = 0
-    $("#tier-2").append(`<div class=\"well\" id=\"${index}\">${movie.name}</div>`);
-    index++
+  moviesToShow.forEach(function(movie) {
+    $("#tier-2").append(`<div class=\"well\" id=\"${movie.id}\">${movie.name}</div>`);
   });
-  $("tier-2").fadeIn();
+  $("#tier-2").show();
   $("#age-form").hide();
 });
   
+  $("#tier-2").on("click", ".well", function() {
+    const idVariable = $(this).attr("id");
+    const movieVariable = find(idVariable);
+    console.log(movieVariable.name);
+  })
+
   let ticket = new Ticket();
   console.log(ticket.cost(mulan))
 });
 
- // let time = $("#showtime ").val();
-  // let movie= $("input#title").val();
