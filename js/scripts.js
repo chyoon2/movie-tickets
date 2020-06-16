@@ -1,18 +1,18 @@
-// <!-- movie, time of day and their age = cost -->
-// <!-- non first release, matinee, and senior tix are cheaper -->
+//Business Logic for Theater
+function Theater() {
+  this.movies = [];
+}
 
-// <!-- constuctor Ticket
-// function: calculate the cost
-// properties: movie type(first release or not), (matinee or non mantinee), showtime, senior tix, 2nd release
-
-// object movie 
-// object  -->
+Theater.prototype.addMovie = function(movie) {
+  this.movies.push(movie);
+}
 
 // Business Logic for Movie Object
 
-function Movie(name, time) {
+function Movie(name, time, rating) {
   this.name = name;
   this.times = time;
+  this.rating = rating;
 }
 // Business Logic for Ticket Object
 
@@ -23,6 +23,7 @@ function Ticket (movie, age, showtime) {
 }
 
 Ticket.prototype.cost = function() {
+  let age = 0
   let cost = null;
   if (this.showtime <= 1600) {
     cost += 3;
@@ -47,9 +48,29 @@ Ticket.prototype.cost = function() {
   return cost
 }
 
-
+//UI Logic
 
 $(document).ready(function(event){
+ 
+  let ourTheater = new Theater();
+  
+  let mulan = new Movie("Mulan", [1100, 1200, 1600], "PG-13");
+  ourTheater.addMovie(mulan);
+  let despicableMe = new Movie("Despicable Me", [1300, 1630, 1900], "PG");
+  ourTheater.addMovie(despicableMe);
+  let fast16 = new Movie("Fast 16", [1600, 1945, 2330], "R");
+  ourTheater.addMovie(fast16);
+  console.log(ourTheater)
+
+$("#age-form").submit(function(event) {
   event.preventDefault();
-  let ticket = new Ticket();
+  let age = $("#age-input").val();
+  
 });
+  
+  let ticket = new Ticket();
+  console.log(ticket.cost())
+});
+
+ // let time = $("#showtime ").val();
+  // let movie= $("input#title").val();
