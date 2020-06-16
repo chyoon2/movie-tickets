@@ -2,6 +2,10 @@
   display: none;
 }
 
+#final-cost {
+  display: none;
+}
+
 #output {
   display: none;
 }

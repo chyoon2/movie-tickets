@@ -84,43 +84,55 @@ function ageRelevantMovies(age, ourTheater) {
 //UI Logic
 
 
-function attachMovieListeners(ourTheater) {
+function attachMovieListeners(ourTheater, ticket) {
 
   $("#tier-2").on("click", ".well", function() {
     const idVariable = $(this).attr("id");
     const movieVariable = ourTheater.movies[parseInt(idVariable) - 1];
-    $("#time-form").append(`<h4>${movieVariable.name}</h4><br>`);
+    ticket.movie = movieVariable;
+    $("#time-div").append(`<h4>${movieVariable.name}</h4><br>`);
     for (i=0; i < movieVariable.time.length; i++) {
-      $("#").append(`<label><input type = 'radio' name = 'time' value = '${movieVariable.time[i]}'>${movieVariable.time[i]}</label><br>`);
+      $("#time-div").append(`<label><input type = 'radio' name = 'time' value = '${movieVariable.time[i]}'>${movieVariable.time[i]}</label><br>`);
     };
     $("#output").show();
   });
 
 };
 
-$(document).ready(function(event){
+$(document).ready(function(){
   let ourTheater = new Theater();
-  attachMovieListeners(ourTheater);
+  let ticket = new Ticket(null, null, null);
+  attachMovieListeners(ourTheater, ticket);
   let mulan = new Movie("Mulan", [1100, 1200, 1600], "PG-13");
   let despicableMe = new Movie("Despicable Me", [1300, 1630, 1900], "PG");
   let fast16 = new Movie("Fast 16", [1600, 1945, 2330], "R");
   ourTheater.addMovie(mulan);
   ourTheater.addMovie(despicableMe);
   ourTheater.addMovie(fast16);
-  console.log(ourTheater);
+  let age;
 
-$("#age-form").submit(function(event) {
-  event.preventDefault();
-  let age = $("#age-input").val();
-  let moviesToShow = ageRelevantMovies(age, ourTheater);
-  moviesToShow.forEach(function(movie) {
-    $("#tier-2").append(`<div class=\"well\" id=\"${movie.id}\">${movie.name}</div>`);
+  $("#age-form").submit(function(event) {
+    event.preventDefault();
+    ageInput = $("#age-input").val();
+    ticket.age = ageInput;
+    let moviesToShow = ageRelevantMovies(ageInput, ourTheater);
+    moviesToShow.forEach(function(movie) {
+      $("#tier-2").append(`<div class=\"well\" id=\"${movie.id}\">${movie.name}</div>`);
+    });
+    $("#tier-2").show();
+    $("#age-form").hide();
   });
-  $("#tier-2").show();
-  $("#age-form").hide();
-});
 
-  let ticket = new Ticket();
-  console.log(ticket.cost(mulan))
+  $("#time-form").submit(function(event) {
+    event.preventDefault();
+    const timeVar = $("input:radio[name=time]:checked").val();
+    ticket.showtime = timeVar;
+    console.log(ticket)
+    $("#final-cost").append("Your Ticket Cost is: $" +  ticket.cost());
+    $("#final-cost").show();
+    console.log(ticket.cost())
+    
+    //$("#output").hide();
+  });
 });
 
