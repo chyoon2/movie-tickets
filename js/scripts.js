@@ -23,7 +23,7 @@ function Ticket (movie, age, showtime) {
 }
 
 Ticket.prototype.cost = function() {
-  let age = 0
+  // let age = 0
   let cost = null;
   if (this.showtime <= 1600) {
     cost += 3;
@@ -48,28 +48,47 @@ Ticket.prototype.cost = function() {
   return cost
 }
 
+// Business Logic General
+
+function ageRelevantMovies(age, ourTheater) {
+  let availableMovies = []
+  ourTheater.movies.forEach(function(movie) {
+    if (parseInt(age) > 18) {
+      availableMovies.push(movie)
+    } else if (ourTheater.movies.rating == "G" || "PG") {
+      availableMovies.push(movie)
+    }
+  });
+  return availableMovies
+}
 //UI Logic
 
 $(document).ready(function(event){
  
   let ourTheater = new Theater();
-  
   let mulan = new Movie("Mulan", [1100, 1200, 1600], "PG-13");
-  ourTheater.addMovie(mulan);
   let despicableMe = new Movie("Despicable Me", [1300, 1630, 1900], "PG");
-  ourTheater.addMovie(despicableMe);
   let fast16 = new Movie("Fast 16", [1600, 1945, 2330], "R");
+  ourTheater.addMovie(mulan);
+  ourTheater.addMovie(despicableMe);
   ourTheater.addMovie(fast16);
-  console.log(ourTheater)
+  console.log(ourTheater);
 
 $("#age-form").submit(function(event) {
   event.preventDefault();
   let age = $("#age-input").val();
-  
+  let moviesToShow = ageRelevantMovies(age, ourTheater);
+  moviesToShow.forEach(function (movie) {
+    let index = 0
+    $("#tier-2").append(`<div class=\"well\" id=\"${index}\">${movie.name}</div>`);
+    index++
+  });
+  $("tier-2").fadeIn();
+  $("#age-form").hide();
 });
   
   let ticket = new Ticket();
-  console.log(ticket.cost())
+  console.log(ticket.cost(mulan))
 });
 
  // let time = $("#showtime ").val();
