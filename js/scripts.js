@@ -90,6 +90,7 @@ function attachMovieListeners(ourTheater, ticket) {
     const idVariable = $(this).attr("id");
     const movieVariable = ourTheater.movies[parseInt(idVariable) - 1];
     ticket.movie = movieVariable;
+    $("#time-div").empty();
     $("#time-div").append(`<h4>${movieVariable.name}</h4><br>`);
     for (i=0; i < movieVariable.time.length; i++) {
       $("#time-div").append(`<label><input type = 'radio' name = 'time' value = '${movieVariable.time[i]}'>${movieVariable.time[i]}</label><br>`);
@@ -128,11 +129,10 @@ $(document).ready(function(){
     const timeVar = $("input:radio[name=time]:checked").val();
     ticket.showtime = timeVar;
     console.log(ticket)
-    $("#final-cost").append("Your Ticket Cost is: $" +  ticket.cost());
+    $("#final-cost").text("Your Ticket Cost is: $" +  ticket.cost());
     $("#final-cost").show();
     console.log(ticket.cost())
-    
-    //$("#output").hide();
+    $("#output").hide();
   });
 });
 
