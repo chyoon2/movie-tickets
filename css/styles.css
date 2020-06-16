@@ -1,6 +1,10 @@
 #tier-2 {
   display: none;
 }
+
+#output {
+  display: none;
+}
 body {
   background-color: orange;
 }

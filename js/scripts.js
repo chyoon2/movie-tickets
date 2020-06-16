@@ -9,7 +9,7 @@ Theater.prototype.assignId = function () {
   return this.id;
 }
 
-Theater.prototype.find = function() {
+Theater.prototype.find = function(id) {
   for (let i=0; i< this.movies.length; i++) {
     if (this.movies[i]) {
       if (this.movies[i].id == id) {
@@ -29,7 +29,7 @@ Theater.prototype.addMovie = function(movie) {
 
 function Movie(name, time, rating) {
   this.name = name;
-  this.times = time;
+  this.time = time;
   this.rating = rating;
 }
 // Business Logic for Ticket Object
@@ -83,9 +83,24 @@ function ageRelevantMovies(age, ourTheater) {
 
 //UI Logic
 
+
+function attachMovieListeners(ourTheater) {
+
+  $("#tier-2").on("click", ".well", function() {
+    const idVariable = $(this).attr("id");
+    const movieVariable = ourTheater.movies[parseInt(idVariable) - 1];
+    $("#time-form").append(`<h4>${movieVariable.name}</h4><br>`);
+    for (i=0; i < movieVariable.time.length; i++) {
+      $("#").append(`<label><input type = 'radio' name = 'time' value = '${movieVariable.time[i]}'>${movieVariable.time[i]}</label><br>`);
+    };
+    $("#output").show();
+  });
+
+};
+
 $(document).ready(function(event){
- 
   let ourTheater = new Theater();
+  attachMovieListeners(ourTheater);
   let mulan = new Movie("Mulan", [1100, 1200, 1600], "PG-13");
   let despicableMe = new Movie("Despicable Me", [1300, 1630, 1900], "PG");
   let fast16 = new Movie("Fast 16", [1600, 1945, 2330], "R");
@@ -104,12 +119,6 @@ $("#age-form").submit(function(event) {
   $("#tier-2").show();
   $("#age-form").hide();
 });
-  
-  $("#tier-2").on("click", ".well", function() {
-    const idVariable = $(this).attr("id");
-    const movieVariable = find(idVariable);
-    console.log(movieVariable.name);
-  })
 
   let ticket = new Ticket();
   console.log(ticket.cost(mulan))
