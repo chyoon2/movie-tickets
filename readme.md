@@ -1,15 +1,15 @@
 
 
 
-# _To-do-list_
+# _Movie Ticket_
 
-#### _{Brief description of application}, {Date of current version}_
+#### _Online movie ticketing website, 6/1/2020_
 
-#### By _**{List of contributors}**_
+#### By _**Chris Yoon}**_
 
 ## Description
 
-_{This is a detailed description of your application. Its purpose and usage.  Give as much detail as needed to explain what the application does, and any other information you want users or other developers to have. }_
+_Application that return ticket information for a client using the UserInterface_
 
 ## Specifications
 
